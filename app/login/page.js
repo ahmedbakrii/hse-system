@@ -15,37 +15,31 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async (e) => {
+const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      // البحث عن المشرف في قاعدة البيانات
+      // هنخلي قاعدة البيانات هي اللي تتأكد من اليوزر والباسورد مع بعض (زي الأول)
       const { data: supervisor, error: fetchError } = await supabase
         .from("supervisors")
         .select("*")
         .eq("username", username)
+        .eq("password", password) // التحقق بيتم هنا
         .single();
 
       if (fetchError || !supervisor) {
-        setError("اسم المستخدم غير صحيح ❌");
-        setLoading(false);
-        return;
-      }
-
-      // التحقق من كلمة المرور
-      if (supervisor.password === password) {
-        // حفظ بيانات المشرف في المتصفح
+        // لو ملقاش يوزر وباسورد متطابقين
+        setError("اسم المستخدم أو كلمة المرور غير صحيحة ❌");
+      } else {
+        // الدخول ناجح: احفظ البيانات ووجهه للوحة الميدانية
         localStorage.setItem("hse_sup_id", supervisor.id);
         localStorage.setItem("hse_sup_name", supervisor.name);
         localStorage.setItem("hse_sup_label", supervisor.label);
 
-        // التوجيه: إما للرابط اللي كان رايحه، أو للوحة المشرف الميداني الجديدة
         const redirectUrl = searchParams.get("redirect") || "/supervisor";
         router.push(redirectUrl);
-      } else {
-        setError("كلمة المرور غير صحيحة ❌");
       }
     } catch (err) {
       setError("حدث خطأ في الاتصال بالخادم ⚠️");
