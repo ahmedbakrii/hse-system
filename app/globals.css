@@ -24,3 +24,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* حل مشكلة الألوان الباهتة في جميع حقول الإدخال */
+input, select, textarea {
+  color: #0f172a !important; /* لون أسود غامق جداً للنص */
+  background-color: #f8fafc !important; /* خلفية رمادي فاتح مريحة للعين */
+  font-weight: 900 !important; /* خط سميك جداً (Black) */
+}
+
+/* تعديل لون النص الإرشادي (Placeholder) ليكون واضح */
+input::placeholder, textarea::placeholder {
+  color: #64748b !important; /* لون رمادي غامق وواضح */
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+/* إزالة أي تأثيرات للشاشات الداكنة (Dark Mode) داخل الحقول */
+@media (prefers-color-scheme: dark) {
+  input, select, textarea {
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+  }
+}
