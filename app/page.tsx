@@ -57,7 +57,7 @@ export default function Home() {
       <footer className="w-full py-8 border-t border-slate-900 text-center">
         <div className="flex flex-col items-center gap-2">
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Powered by</p>
-          <a href="https://justtap.sa" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
+          <a href="https://jus-tt-ap.com" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
             Justtap Smart NFC Solutions‎‏ 
           </a>
           <p className="text-slate-600 text-xs mt-2 font-bold">© 2026 Energya Steel - All Rights Reserved</p>
