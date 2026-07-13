@@ -63,7 +63,6 @@ export default function SupervisorDashboard() {
           <h1 className="text-xl font-black flex items-center gap-2"><span>🛡️</span> العمليات الميدانية</h1>
           <p className="text-xs text-green-400 font-bold mt-1">مرحباً كابتن: {supName}</p>
         </div>
-        <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-black text-xs shadow-md transition-colors">خروج</button>
       </nav>
 
       <div className="p-4 max-w-md mx-auto space-y-6 mt-4">
