@@ -60,7 +60,7 @@ function LoginForm() {
       localStorage.setItem("hse_sup_name", foundUser.name);
       localStorage.setItem("hse_sup_label", foundUser.label || "مشرف سلامة");
 
-     const redirectUrl = searchParams.get("redirect") || "/admin/supervisors";
+     const redirectUrl = searchParams.get("redirect") || "/supervisor";
       router.push(redirectUrl);
 
     } catch (err) {
