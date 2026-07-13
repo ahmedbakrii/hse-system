@@ -38,7 +38,7 @@ export default function Home() {
           <Link href="/admin-login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl">
             <h3 className="text-xl font-black mb-2 group-hover:text-blue-400">بوابة الإدارة</h3>
             <p className="text-slate-500 font-bold text-sm">تسجيل دخول للمديرين </p>
-           <Link href="admin
+           <Link href="/admin
 /supervisors" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl">
           
           <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl opacity-50 cursor-not-allowed">
