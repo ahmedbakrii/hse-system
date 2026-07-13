@@ -1,60 +1,61 @@
 import Link from 'next/link';
 
+export const metadata = {
+  title: 'Energia HSE | نظام إدارة السلامة',
+  description: 'نظام إدارة تدريب واعتمادات المشغلين لشركة إنيرجيا',
+};
+
 export default function Home() {
   return (
-    <main dir="rtl" className="min-h-screen flex flex-col items-center justify-between bg-black text-white font-sans">
+    <main dir="rtl" className="min-h-screen bg-slate-950 text-white font-sans flex flex-col">
       
-      {/* القسم الرئيسي (Hero Section) */}
+      {/* هيدر الصفحة */}
+      <nav className="p-8 flex justify-between items-center border-b border-slate-900">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl shadow-lg shadow-blue-900/20">🛡️</div>
+          <h1 className="text-xl font-black tracking-tight">Energia HSE</h1>
+        </div>
+      </nav>
+
+      {/* القسم الرئيسي */}
       <div className="flex-grow flex flex-col items-center justify-center w-full px-4 text-center">
         
-        {/* لمسة تصميمية بسيطة باللون الذهبي */}
-        <div className="w-16 h-1 bg-yellow-500 mb-8 rounded-full"></div>
+        {/* شارة إضافية تعطي طابع احترافي */}
+        <span className="px-4 py-1 bg-blue-900/30 text-blue-400 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-blue-900">
+          Industrial Safety Portal
+        </span>
 
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-          لوحة تحكم نظام السلامة
+        <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
+          نظام إدارة السلامة
         </h1>
-        <h2 className="text-2xl md:text-3xl font-light text-gray-300 mb-8">
-          شركة إنيرجيا
-        </h2>
-
-        <p className="max-w-xl text-lg text-gray-400 mb-12 leading-relaxed">
-          النظام الشامل لمتابعة وتدريب المشغلين.
+        
+        <p className="max-w-xl text-lg text-slate-400 mb-12 font-medium leading-relaxed">
+          نظام متكامل لإدارة اعتمادات المشغلين وتدريب السلامة المهنية داخل مصانع إنيرجيا.
         </p>
 
-        {/* زر الدخول للوحة التحكم */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link 
-            href="/admin" 
-            className="px-8 py-3 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition-colors duration-300 shadow-lg shadow-yellow-500/20"
-          >
-            الدخول إلى النظام
+        {/* كروت الدخول */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+          <Link href="/admin-login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl">
+            <h3 className="text-xl font-black mb-2 group-hover:text-blue-400">بوابة الإدارة</h3>
+            <p className="text-slate-500 font-bold text-sm">تسجيل دخول للمديرين ومشرفي السلامة</p>
           </Link>
+          
+          <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl opacity-50 cursor-not-allowed">
+            <h3 className="text-xl font-black mb-2">نظام الطوارئ</h3>
+            <p className="text-slate-500 font-bold text-sm">قيد التطوير (للمستخدمين العامين)</p>
+          </div>
         </div>
       </div>
 
-      {/* الفوتر (الذي يحتوي على الحقوق) */}
-      <footer className="w-full py-8 border-t border-gray-800 text-sm text-gray-400 flex flex-col items-center justify-center gap-3">
-        <p className="flex items-center gap-1">
-         powered by
-          <a
-            href="https://www.jus-tt-ap.com/" // استبدل هذا برابط موقع Justtap الخاص بك
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-yellow-500 hover:text-yellow-400 font-bold transition-colors mx-1"
-          >
-            Justtap
+      {/* الفوتر */}
+      <footer className="w-full py-8 border-t border-slate-900 text-center">
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Powered by</p>
+          <a href="https://justtap.sa" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
+            Justtap Safety Solutions
           </a>
-        </p>
-        <p className="flex items-center gap-1">
-            designed by          <a
-            href="https://www.linkedin.com/in/ahmed-salah-5b0567197?utm_source=share_via&utm_content=profile&utm_medium=member_android" // استبدل هذا برابط حسابك على لينكد إن
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white hover:text-gray-300 font-semibold transition-colors mx-1 underline decoration-gray-600 underline-offset-4"
-          >
-            Ahmed Salah
-          </a>
-        </p>
+          <p className="text-slate-600 text-xs mt-2 font-bold">© 2026 Energia Steel - All Rights Reserved</p>
+        </div>
       </footer>
 
     </main>
