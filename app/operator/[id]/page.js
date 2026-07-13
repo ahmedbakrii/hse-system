@@ -77,13 +77,6 @@ export default function OperatorProfile({ params }) {
     setActionLoading(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("hse_sup_id");
-    localStorage.removeItem("hse_sup_name");
-    localStorage.removeItem("hse_sup_label");
-    setIsSupervisor(false);
-  };
-
   if (loading) return <div className="flex h-screen items-center justify-center font-black text-2xl">جاري التحقق... ⏳</div>;
   if (!operator) return <div className="flex h-screen items-center justify-center font-black text-2xl text-red-600">❌ المشغل غير موجود</div>;
 
@@ -96,8 +89,6 @@ export default function OperatorProfile({ params }) {
         {/* الشريط العلوي للحالة */}
         <div className={`w-full py-6 text-center text-white shadow-md relative ${isValid ? "bg-green-600" : "bg-red-700"}`}>
           <h1 className="text-3xl font-black">{isValid ? "مصرح بالعمل ✔️" : "غير مصرح (موقوف/منتهي) ❌"}</h1>
-          {isSupervisor && (
-          )}
         </div>
 
         <div className="max-w-md mx-auto mt-6 px-4 space-y-6">
