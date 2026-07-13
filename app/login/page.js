@@ -15,34 +15,56 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      // هنخلي قاعدة البيانات هي اللي تتأكد من اليوزر والباسورد مع بعض (زي الأول)
-      const { data: supervisor, error: fetchError } = await supabase
+      // 1. هنجيب اليوزر بس من غير الباسورد عشان نعرف هو موجود أصلاً ولا لأ
+      const { data: supervisorData, error: fetchError } = await supabase
         .from("supervisors")
         .select("*")
-        .eq("username", username)
-        .eq("password", password) // التحقق بيتم هنا
-        .single();
+        .eq("username", username);
 
-      if (fetchError || !supervisor) {
-        // لو ملقاش يوزر وباسورد متطابقين
-        setError("اسم المستخدم أو كلمة المرور غير صحيحة ❌");
-      } else {
-        // الدخول ناجح: احفظ البيانات ووجهه للوحة الميدانية
-        localStorage.setItem("hse_sup_id", supervisor.id);
-        localStorage.setItem("hse_sup_name", supervisor.name);
-        localStorage.setItem("hse_sup_label", supervisor.label);
-
-        const redirectUrl = searchParams.get("redirect") || "/supervisor";
-        router.push(redirectUrl);
+      // لو فيه خطأ في الاتصال بقاعدة البيانات
+      if (fetchError) {
+        setError(`خطأ من الداتابيز: ${fetchError.message}`);
+        setLoading(false);
+        return;
       }
+
+      // 2. هل اليوزر ده موجود في جدول المشرفين؟
+      if (!supervisorData || supervisorData.length === 0) {
+        setError("اليوزر ده مش موجود في المشرفين! (هل ده حساب مدير؟ جرب بوابة الإدارة) ❌");
+        setLoading(false);
+        return;
+      }
+
+      // 3. اليوزر موجود، تعالوا نقارن الباسورد بقى
+      const foundUser = supervisorData[0];
+      
+      // هنحولهم لنصوص ونشيل المسافات عشان لو فيه مسافة منسية
+      const dbPassword = String(foundUser.password).trim();
+      const enteredPassword = String(password).trim();
+
+      if (dbPassword !== enteredPassword) {
+        // الأمانة العلمية: هنفضح الداتابيز ونعرض الباسورد اللي جواها عشان نعرف الفرق
+        setError(`الباسورد غلط! (المتخزن في الداتابيز هو: ${dbPassword}) ❌`);
+        setLoading(false);
+        return;
+      }
+
+      // 4. لو كله متطابق وتمام التمام
+      localStorage.setItem("hse_sup_id", foundUser.id);
+      localStorage.setItem("hse_sup_name", foundUser.name);
+      localStorage.setItem("hse_sup_label", foundUser.label || "مشرف سلامة");
+
+      const redirectUrl = searchParams.get("redirect") || "/supervisor";
+      router.push(redirectUrl);
+
     } catch (err) {
-      setError("حدث خطأ في الاتصال بالخادم ⚠️");
+      setError(`خطأ غير متوقع: ${err.message}`);
     }
     
     setLoading(false);
