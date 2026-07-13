@@ -9,7 +9,7 @@ export default function SupervisorsManagement() {
   
   // حالات الفورم لإضافة مشرف جديد
   const [formData, setFormData] = useState({
-    full_name: "",
+    name: "",
     username: "",
     pin_code: "",
     role_label: "مشرف سلامة"
