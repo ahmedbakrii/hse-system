@@ -7,7 +7,7 @@ export default function SupervisorsManagement() {
   const [supervisors, setSupervisors] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // حالات الفورم لإضافة مشرف جديد
+  // تم تعديل الأسماء هنا لتطابق قاعدة البيانات (name بدل full_name، و password بدل pin_code)
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -42,18 +42,20 @@ export default function SupervisorsManagement() {
       if (error.code === '23505') { // كود الخطأ لو اسم المستخدم متكرر
         alert("اسم المستخدم (Username) موجود بالفعل، الرجاء اختيار اسم آخر.");
       } else {
-        alert("حدث خطأ أثناء إضافة المشرف.");
+        alert("حدث خطأ أثناء إضافة المشرف. تأكد من اتصالك بقاعدة البيانات.");
+        console.error("Supabase Error:", error);
       }
     } else {
       alert("✅ تم إضافة المشرف بنجاح!");
-      setFormData({ name: "", username: "", pin_code: "", role_label: "مشرف سلامة" });
+      // تصفير الفورم بعد الإضافة
+      setFormData({ name: "", username: "", password: "", role_label: "مشرف سلامة" });
       fetchSupervisors();
     }
     setIsSubmitting(false);
   };
 
-  const handleDelete = async (id, name) => {
-    if (window.confirm(`هل أنت متأكد من حذف حساب المشرف: ${name}؟\nلا يمكن التراجع عن هذا الإجراء.`)) {
+  const handleDelete = async (id, supName) => {
+    if (window.confirm(`هل أنت متأكد من حذف حساب المشرف: ${supName}؟\nلا يمكن التراجع عن هذا الإجراء.`)) {
       await supabase.from("supervisors").delete().eq("id", id);
       fetchSupervisors();
     }
@@ -77,7 +79,7 @@ export default function SupervisorsManagement() {
             <form onSubmit={handleAddSupervisor} className="space-y-4">
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">الاسم الكامل</label>
-                <input type="text" name="name" required value={formData.full_name} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none" placeholder="مثال: أحمد محمود" />
+                <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none" placeholder="مثال: أحمد محمود" />
               </div>
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">اسم المستخدم (للدخول)</label>
@@ -85,7 +87,7 @@ export default function SupervisorsManagement() {
               </div>
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">الرمز السري (PIN)</label>
-                <input type="text" name="pin_code" required value={formData.pin_code} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none text-center tracking-widest" placeholder="1234" dir="ltr" />
+                <input type="text" name="password" required value={formData.password} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none text-center tracking-widest" placeholder="1234" dir="ltr" />
               </div>
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">الوصف (الوردية / الموقع)</label>
@@ -120,9 +122,10 @@ export default function SupervisorsManagement() {
                   <tbody className="text-slate-900">
                     {supervisors.map((sup) => (
                       <tr key={sup.id} className="border-b-2 border-slate-100 hover:bg-slate-50 transition-colors">
-                        <td className="p-4 font-black text-lg">{sup.full_name}</td>
+                        {/* تم التعديل هنا لعرض البيانات بشكل صحيح */}
+                        <td className="p-4 font-black text-lg">{sup.name}</td>
                         <td className="p-4 font-bold text-blue-700" dir="ltr">{sup.username}</td>
-                        <td className="p-4 font-black tracking-widest text-slate-600">{sup.pin_code}</td>
+                        <td className="p-4 font-black tracking-widest text-slate-600">{sup.password}</td>
                         <td className="p-4 font-bold text-slate-600 text-sm">{sup.role_label}</td>
                         <td className="p-4 text-center">
                           <button 
