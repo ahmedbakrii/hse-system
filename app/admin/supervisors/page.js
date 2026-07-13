@@ -46,7 +46,7 @@ export default function SupervisorsManagement() {
       }
     } else {
       alert("✅ تم إضافة المشرف بنجاح!");
-      setFormData({ full_name: "", username: "", pin_code: "", role_label: "مشرف سلامة" });
+      setFormData({ name: "", username: "", pin_code: "", role_label: "مشرف سلامة" });
       fetchSupervisors();
     }
     setIsSubmitting(false);
