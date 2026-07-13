@@ -77,7 +77,7 @@ export default function SupervisorsManagement() {
             <form onSubmit={handleAddSupervisor} className="space-y-4">
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">الاسم الكامل</label>
-                <input type="text" name="full_name" required value={formData.full_name} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none" placeholder="مثال: أحمد محمود" />
+                <input type="text" name="name" required value={formData.full_name} onChange={handleChange} className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-blue-600 outline-none" placeholder="مثال: أحمد محمود" />
               </div>
               <div>
                 <label className="block text-sm font-black text-slate-700 mb-1">اسم المستخدم (للدخول)</label>
@@ -126,7 +126,7 @@ export default function SupervisorsManagement() {
                         <td className="p-4 font-bold text-slate-600 text-sm">{sup.role_label}</td>
                         <td className="p-4 text-center">
                           <button 
-                            onClick={() => handleDelete(sup.id, sup.full_name)}
+                            onClick={() => handleDelete(sup.id, sup.name)}
                             className="bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-lg font-black text-xs border-2 border-red-300 transition-colors shadow-sm"
                           >
                             🗑️ حذف
