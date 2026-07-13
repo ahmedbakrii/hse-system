@@ -38,14 +38,14 @@ export default function Home() {
           
           {/* الكارت الأول: بوابة الإدارة */}
           <Link href="/admin-login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl flex flex-col items-center justify-center text-center">
-            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">👑</span>
+            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform"></span>
             <h3 className="text-xl font-black mb-2 group-hover:text-blue-400">بوابة الإدارة</h3>
             <p className="text-slate-500 font-bold text-sm">تسجيل دخول للمديرين</p>
           </Link>
           
           {/* الكارت الثاني: بوابة المشرفين */}
           <Link href="/login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-green-500 transition-all group shadow-xl flex flex-col items-center justify-center text-center">
-            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">🛡️</span>
+            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform"></span>
             <h3 className="text-xl font-black mb-2 group-hover:text-green-400">بوابة المشرفين</h3>
             <p className="text-slate-500 font-bold text-sm">تسجيل دخول مشرف السلامة</p>
           </Link>
