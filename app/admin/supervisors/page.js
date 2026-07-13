@@ -11,7 +11,7 @@ export default function SupervisorsManagement() {
   const [formData, setFormData] = useState({
     name: "",
     username: "",
-    pin_code: "",
+    password: "",
     role_label: "مشرف سلامة"
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
