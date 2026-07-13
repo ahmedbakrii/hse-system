@@ -13,7 +13,7 @@ export default function Home() {
       <nav className="p-8 flex justify-between items-center border-b border-slate-900">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl shadow-lg shadow-blue-900/20">🛡️</div>
-          <h1 className="text-xl font-black tracking-tight">Energia HSE</h1>
+          <h1 className="text-xl font-black tracking-tight">Energya HSE</h1>
         </div>
       </nav>
 
@@ -58,9 +58,9 @@ export default function Home() {
         <div className="flex flex-col items-center gap-2">
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Powered by</p>
           <a href="https://justtap.sa" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
-            Justtap Safety Solutions
+            Justtap Smart NFC Solutions‎‏ 
           </a>
-          <p className="text-slate-600 text-xs mt-2 font-bold">© 2026 Energia Steel - All Rights Reserved</p>
+          <p className="text-slate-600 text-xs mt-2 font-bold">© 2026 Energya Steel - All Rights Reserved</p>
         </div>
       </footer>
 
