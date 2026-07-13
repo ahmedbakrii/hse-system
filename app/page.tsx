@@ -13,7 +13,7 @@ export default function Home() {
       <nav className="p-8 flex justify-between items-center border-b border-slate-900">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl shadow-lg shadow-blue-900/20">🛡️</div>
-          <h1 className="text-xl font-black tracking-tight">Energya HSE</h1>
+          <h1 className="text-xl font-black tracking-tight">Energia HSE</h1>
         </div>
       </nav>
 
@@ -35,16 +35,21 @@ export default function Home() {
 
         {/* كروت الدخول */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
-          <Link href="/admin-login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl">
-            <h3 className="text-xl font-black mb-2 group-hover:text-blue-400">بوابة الإدارة</h3>
-            <p className="text-slate-500 font-bold text-sm">تسجيل دخول للمديرين </p>
-           <Link href="/admin
-/supervisors" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl">
           
-          <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl opacity-50 cursor-not-allowed">
-            <h3 className="text-xl font-black mb-2">بوابة المشرفين</h3>
-            <p className="text-slate-500 font-bold text-sm">تسجيل دخول مشرفي السلامة</p>
-          </div>
+          {/* الكارت الأول: بوابة الإدارة */}
+          <Link href="/admin-login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 transition-all group shadow-xl flex flex-col items-center justify-center text-center">
+            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">👑</span>
+            <h3 className="text-xl font-black mb-2 group-hover:text-blue-400">بوابة الإدارة</h3>
+            <p className="text-slate-500 font-bold text-sm">تسجيل دخول للمديرين</p>
+          </Link>
+          
+          {/* الكارت الثاني: بوابة المشرفين */}
+          <Link href="/login" className="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-green-500 transition-all group shadow-xl flex flex-col items-center justify-center text-center">
+            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">🛡️</span>
+            <h3 className="text-xl font-black mb-2 group-hover:text-green-400">بوابة المشرفين</h3>
+            <p className="text-slate-500 font-bold text-sm">تسجيل دخول مشرف السلامة</p>
+          </Link>
+
         </div>
       </div>
 
@@ -52,7 +57,7 @@ export default function Home() {
       <footer className="w-full py-8 border-t border-slate-900 text-center">
         <div className="flex flex-col items-center gap-2">
           <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Powered by</p>
-          <a href="https://jus-tt-ap.com" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
+          <a href="https://justtap.sa" target="_blank" rel="noopener noreferrer" className="text-white font-black hover:text-blue-400 transition-colors">
             Justtap Safety Solutions
           </a>
           <p className="text-slate-600 text-xs mt-2 font-bold">© 2026 Energia Steel - All Rights Reserved</p>
