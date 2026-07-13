@@ -3,14 +3,15 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
+// 1. المكون اللي فيه الفورم وبيستخدم useSearchParams
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/admin";
-
+  
   const [username, setUsername] = useState("");
-  const [pinCode, setPinCode] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -20,110 +21,113 @@ function LoginForm() {
     setError("");
 
     try {
-      const { data, error: fetchError } = await supabase
+      // البحث عن المشرف في قاعدة البيانات
+      const { data: supervisor, error: fetchError } = await supabase
         .from("supervisors")
         .select("*")
-        .eq("username", username.trim());
+        .eq("username", username)
+        .single();
 
-      if (fetchError) {
-        throw new Error(`خطأ في الاتصال بقاعدة البيانات: ${fetchError.message}`);
+      if (fetchError || !supervisor) {
+        setError("اسم المستخدم غير صحيح ❌");
+        setLoading(false);
+        return;
       }
 
-      if (!data || data.length === 0) {
-        throw new Error("اسم المستخدم غير مسجل في النظام.");
+      // التحقق من كلمة المرور
+      if (supervisor.password === password) {
+        // حفظ بيانات المشرف في المتصفح
+        localStorage.setItem("hse_sup_id", supervisor.id);
+        localStorage.setItem("hse_sup_name", supervisor.name);
+        localStorage.setItem("hse_sup_label", supervisor.label);
+
+        // التوجيه: إما للرابط اللي كان رايحه، أو للوحة المشرف الميداني الجديدة
+        const redirectUrl = searchParams.get("redirect") || "/supervisor";
+        router.push(redirectUrl);
+      } else {
+        setError("كلمة المرور غير صحيحة ❌");
       }
-
-      const user = data[0];
-
-      if (user.pin_code !== pinCode.trim()) {
-        throw new Error("الرمز السري غير صحيح.");
-      }
-
-      localStorage.setItem("hse_sup_id", user.id);
-      localStorage.setItem("hse_sup_name", user.full_name);
-      localStorage.setItem("hse_sup_label", user.role_label || "مشرف سلامة");
-
-      router.push(redirectUrl);
     } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setError("حدث خطأ في الاتصال بالخادم ⚠️");
     }
+    
+    setLoading(false);
   };
 
   return (
-    <div
-      className="min-h-screen bg-gray-100 flex items-center justify-center p-4"
-      dir="rtl"
-    >
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border-2 border-slate-800">
-        <h1 className="text-3xl font-black mb-2 text-slate-900 text-center">
-          بوابة المشرفين
-        </h1>
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4" dir="rtl">
+      <div className="bg-slate-50 p-8 rounded-3xl shadow-2xl w-full max-w-md border-4 border-slate-200">
+        
+        {/* هيدر الفورم */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-green-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl shadow-lg shadow-green-600/30">🛡️</div>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight">بوابة المشرفين</h1>
+          <p className="text-slate-500 font-bold mt-2">تسجيل الدخول للعمليات الميدانية</p>
+        </div>
 
-        <p className="mb-6 font-bold text-gray-500 text-center">
-          قم بتسجيل الدخول لتتمكن من تسجيل المخالفات
-        </p>
-
+        {/* رسالة الخطأ */}
         {error && (
-          <div className="bg-red-100 text-red-800 font-bold p-3 rounded mb-4 text-center border border-red-300">
+          <div className="bg-red-100 text-red-700 p-4 rounded-xl font-black text-sm mb-6 text-center border-2 border-red-200 animate-pulse">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        {/* فورم الدخول */}
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block font-black text-slate-800 mb-1">
-              اسم المستخدم
-            </label>
-
+            <label className="block text-sm font-black text-slate-700 mb-2">اسم المستخدم</label>
             <input
               type="text"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-slate-800 outline-none"
-              placeholder="مثال: ahmed"
+              className="w-full bg-white border-2 border-slate-300 p-4 rounded-xl focus:outline-none focus:border-green-600 font-bold text-slate-800 shadow-inner transition-colors"
+              placeholder="اكتب اسم المستخدم هنا..."
             />
           </div>
-
+          
           <div>
-            <label className="block font-black text-slate-800 mb-1">
-              الرمز السري
-            </label>
-
+            <label className="block text-sm font-black text-slate-700 mb-2">كلمة المرور</label>
             <input
               type="password"
               required
-              value={pinCode}
-              onChange={(e) => setPinCode(e.target.value)}
-              className="w-full border-2 border-slate-300 p-3 rounded-lg font-bold focus:border-slate-800 outline-none"
-              placeholder="****"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-white border-2 border-slate-300 p-4 rounded-xl focus:outline-none focus:border-green-600 font-bold text-slate-800 shadow-inner transition-colors"
+              placeholder="••••••••"
+              dir="ltr"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-slate-800 text-white font-black py-4 rounded-lg hover:bg-slate-900 mt-4 transition-colors"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-green-600/30 mt-2 text-lg"
           >
-            {loading ? "جاري التحقق..." : "تسجيل الدخول"}
+            {loading ? "جاري التحقق... ⏳" : "تسجيل الدخول"}
           </button>
         </form>
+        
+        {/* زر العودة */}
+        <div className="mt-8 text-center border-t-2 border-slate-200 pt-6">
+          <Link href="/" className="text-sm font-black text-slate-400 hover:text-slate-800 transition-colors">
+            العودة للصفحة الرئيسية
+          </Link>
+        </div>
+
       </div>
     </div>
   );
 }
 
-export default function Page() {
+// 2. الصفحة الرئيسية بتعمل Wrap للـ LoginForm جوه Suspense عشان Vercel
+export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          جاري التحميل...
-        </div>
-      }
-    >
+    <Suspense fallback={
+      <div className="flex h-screen items-center justify-center font-black text-2xl bg-slate-900 text-white">
+        جاري تهيئة البوابة... ⏳
+      </div>
+    }>
       <LoginForm />
     </Suspense>
   );
