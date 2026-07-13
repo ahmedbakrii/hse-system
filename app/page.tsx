@@ -18,13 +18,13 @@ export default function Home() {
         </h2>
 
         <p className="max-w-xl text-lg text-gray-400 mb-12 leading-relaxed">
-          النظام الشامل لمتابعة وتدريب المشغلين، وإدارة متطلبات السلامة والصحة المهنية داخل المصنع بكفاءة واحترافية.
+          النظام الشامل لمتابعة وتدريب المشغلين.
         </p>
 
         {/* زر الدخول للوحة التحكم */}
         <div className="flex flex-col sm:flex-row gap-4">
           <Link 
-            href="/dashboard" 
+            href="/admin" 
             className="px-8 py-3 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition-colors duration-300 shadow-lg shadow-yellow-500/20"
           >
             الدخول إلى النظام
@@ -35,9 +35,9 @@ export default function Home() {
       {/* الفوتر (الذي يحتوي على الحقوق) */}
       <footer className="w-full py-8 border-t border-gray-800 text-sm text-gray-400 flex flex-col items-center justify-center gap-3">
         <p className="flex items-center gap-1">
-          يُدار النظام بواسطة
+         powered by
           <a
-            href="https://justtap.sa" // استبدل هذا برابط موقع Justtap الخاص بك
+            href="https://www.jus-tt-ap.com/" // استبدل هذا برابط موقع Justtap الخاص بك
             target="_blank"
             rel="noopener noreferrer"
             className="text-yellow-500 hover:text-yellow-400 font-bold transition-colors mx-1"
@@ -46,9 +46,8 @@ export default function Home() {
           </a>
         </p>
         <p className="flex items-center gap-1">
-          تصميم وتطوير
-          <a
-            href="https://linkedin.com/in/your-profile" // استبدل هذا برابط حسابك على لينكد إن
+            designed by          <a
+            href="https://www.linkedin.com/in/ahmed-salah-5b0567197?utm_source=share_via&utm_content=profile&utm_medium=member_android" // استبدل هذا برابط حسابك على لينكد إن
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:text-gray-300 font-semibold transition-colors mx-1 underline decoration-gray-600 underline-offset-4"
