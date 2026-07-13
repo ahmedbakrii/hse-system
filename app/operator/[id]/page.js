@@ -97,7 +97,6 @@ export default function OperatorProfile({ params }) {
         <div className={`w-full py-6 text-center text-white shadow-md relative ${isValid ? "bg-green-600" : "bg-red-700"}`}>
           <h1 className="text-3xl font-black">{isValid ? "مصرح بالعمل ✔️" : "غير مصرح (موقوف/منتهي) ❌"}</h1>
           {isSupervisor && (
-             <button onClick={handleLogout} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-black font-bold px-3 py-1 rounded text-xs shadow-sm hover:bg-gray-200">خروج</button>
           )}
         </div>
 
