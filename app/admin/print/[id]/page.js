@@ -2,7 +2,7 @@
 
 import { useEffect, useState, use } from "react";
 import { supabase } from "@/lib/supabase";
-import html2canvas from "html2canvas";
+import { toJpeg } from "html-to-image";
 
 export default function PrintCard({ params }) {
   const unwrappedParams = use(params);
@@ -16,7 +16,6 @@ export default function PrintCard({ params }) {
       const { data } = await supabase.from("operators").select("*").eq("cert_id", certId).single();
       if (data) {
         setOperator(data);
-        // تغيير اسم التاب ليدل على الطباعة
         document.title = `طباعة كارت | ${data.full_name}`;
       }
       setLoading(false);
@@ -65,29 +64,29 @@ export default function PrintCard({ params }) {
 
   const config = getEquipmentConfig(operator.job_title);
 
-  // دالة تحميل الكارت كصورتين JPG
+  // دالة تحميل الكارت كصورتين JPG باستخدام المكتبة الجديدة
   const handleDownloadJPG = async () => {
     setIsDownloading(true);
     try {
       const frontCard = document.getElementById("front-card");
       const backCard = document.getElementById("back-card");
 
-      // إعدادات جودة الصورة للطباعة (Scale 3 لجودة ممتازة)
-      const canvasOptions = { scale: 3, useCORS: true, backgroundColor: "#ffffff" };
+      // إعدادات جودة الصورة للطباعة (تكبير البيكسل 3 مرات لجودة ممتازة)
+      const options = { quality: 1, backgroundColor: "#ffffff", pixelRatio: 3 };
 
       if (frontCard) {
-        const canvasFront = await html2canvas(frontCard, canvasOptions);
+        const dataUrlFront = await toJpeg(frontCard, options);
         const linkFront = document.createElement("a");
         linkFront.download = `Front_Card_${operator.full_name}.jpg`;
-        linkFront.href = canvasFront.toDataURL("image/jpeg", 1.0);
+        linkFront.href = dataUrlFront;
         linkFront.click();
       }
 
       if (backCard) {
-        const canvasBack = await html2canvas(backCard, canvasOptions);
+        const dataUrlBack = await toJpeg(backCard, options);
         const linkBack = document.createElement("a");
         linkBack.download = `Back_Card_${operator.full_name}.jpg`;
-        linkBack.href = canvasBack.toDataURL("image/jpeg", 1.0);
+        linkBack.href = dataUrlBack;
         linkBack.click();
       }
     } catch (error) {
@@ -130,7 +129,6 @@ export default function PrintCard({ params }) {
             
             {/* شعار المصنع واسمه */}
             <div className="flex flex-col items-center mb-5">
-              {/* اللوجو: تأكد من وجود صورة اسمها energya-logo.png في مجلد public */}
               <div className="w-14 h-14 mb-1 flex items-center justify-center">
                 <img src="/energya-logo.png" alt="Energya Logo" className="w-full h-full object-contain" onError={(e) => e.target.src = 'https://via.placeholder.com/80?text=LOGO'} />
               </div>
@@ -139,9 +137,9 @@ export default function PrintCard({ params }) {
               </h2>
             </div>
 
-            {/* صورة المشغل ملونة */}
+            {/* صورة المشغل */}
             <div className="w-24 h-24 rounded-full overflow-hidden border-[3px] border-white shadow-md mb-4 bg-gray-100 ring-2 ring-gray-100">
-              <img src={operator.photo_url} alt={operator.full_name} className="w-full h-full object-cover" crossOrigin="anonymous" />
+              <img src={operator.photo_url} alt={operator.full_name} className="w-full h-full object-cover" />
             </div>
 
             {/* اسم المشغل */}
@@ -183,7 +181,6 @@ export default function PrintCard({ params }) {
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bakrii-hse-system.vercel.app/operator/${operator.cert_id}`} 
                 alt="QR Code" 
                 className="w-24 h-24"
-                crossOrigin="anonymous"
               />
             </div>
 
